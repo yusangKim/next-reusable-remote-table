@@ -1,15 +1,8 @@
-import axios from "axios";
-import qs from "qs";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useState } from "react";
 import { useQuery } from "react-query";
+import { fetchTodoList } from "../api";
 import TodoRemoteTable from "./TodoRemoteTable";
 import TodoSearchForm from "./TodoSearchForm";
-
-export async function fetchTodoList(page, per_page = 10) {
-  const params = { page, per_page };
-  const queryString = qs.stringify(params);
-  return await axios.get(`/api/todos?${queryString}`);
-}
 
 const TodoListWithSearchForm = (props) => {
   const {
@@ -19,48 +12,13 @@ const TodoListWithSearchForm = (props) => {
     setPageSize,
   } = props;
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Id",
-        accessor: "id",
-        sortable: true,
-      },
-      {
-        Header: "Title",
-        accessor: "title",
-        sortable: true,
-      },
-      {
-        Header: "User",
-        accessor: "userId",
-        sortable: true,
-      },
-      {
-        Header: "Completed",
-        accessor: (d) => (d.completed ? "true" : "false"),
-      },
-    ],
-    []
-  );
-
   const [pageCount, setPageCount] = useState(0);
 
-  // const fetchData = useCallback(
-  //   async ({ queryKey }) => {
-  //     const [_key, { pageIndex, pageSize, filter, sortBy }] = queryKey;
-  //     console.log({ queryKey });
-  //     const page = pageIndex + 1;
-  //     const response = await fetchTodoList(page, pageSize, filter, sortBy);
-  //     return response.data.data;
-  //   },
-  //   [sortBy, filter]
-  // );
   const fetchData = useCallback(async ({ queryKey }) => {
     const [_key, { pageIndex, pageSize }] = queryKey;
     const page = pageIndex + 1;
     const response = await fetchTodoList(page, pageSize);
-    return response.data.data;
+    return response.data;
   }, []);
 
   const { isLoading, data } = useQuery(
@@ -78,9 +36,9 @@ const TodoListWithSearchForm = (props) => {
       <div>TodoListWithSearchForm</div>
       <TodoSearchForm />
       <TodoRemoteTable
-        columns={columns}
         loading={isLoading}
-        data={data}
+        data={data?.data ?? []}
+        controlledPageCount={pageCount}
         controlledPageIndex={pageIndex}
         controlledPageSize={pageSize}
         setPageIndex={setPageIndex}

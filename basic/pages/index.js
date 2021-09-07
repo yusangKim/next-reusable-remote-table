@@ -32,7 +32,7 @@ export default function Home() {
             </a>
           </Link>
 
-          <Link href="/todo-widgets">
+          <Link href="/todo-widget">
             <a className={styles.card}>
               <div className="h-32">
                 <h2>Todo Widget &rarr;</h2>

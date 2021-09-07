@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useCallback, useMemo } from "react";
-import { useTable, useSortBy, usePagination } from "react-table";
+import { usePagination, useSortBy, useTable } from "react-table";
 
 const RemoteTable = (props) => {
   const {
@@ -50,40 +50,22 @@ const RemoteTable = (props) => {
     state: { pageIndex, pageSize },
   } = instance;
 
-  const gotoPage = useCallback((page) => {
-    setControlledPage(page);
-  }, []);
-  // const nextPage = useCallback(() => {
-  //   console.log("nextPage", { pageIndex });
-  //   setControlledPage(pageIndex + 1);
-  // }, [pageIndex]);
-  const nextPage = () => {
-    console.log("nextPage", { pageIndex });
+  const gotoPage = useCallback(
+    (page) => {
+      setControlledPage(page);
+    },
+    [setControlledPage]
+  );
+  const nextPage = useCallback(() => {
     setControlledPage(pageIndex + 1);
-  };
+  }, [pageIndex, setControlledPage]);
   const previousPage = useCallback(() => {
     setControlledPage(pageIndex - 1);
-  }, [pageIndex]);
-  const setPageSize = useCallback(
-    (newPageSize) => {
-      setControlledPageSize(newPageSize);
-      if (pageSize !== newPageSize) {
-        setControlledPage(0);
-      }
-    },
-    [pageSize, setControlledPage, setControlledPageSize]
-  );
+  }, [pageIndex, setControlledPage]);
 
   return (
     <div className="border p-2">
       <div>RemoteTable</div>
-      <pre>
-        {JSON.stringify(
-          { pageIndex, pageSize, controlledPageIndex, controlledPageSize },
-          null,
-          2
-        )}
-      </pre>
       <div className="p-4 border">
         <h1 className="text-xl">RemoteTable</h1>
         <table {...getTableProps()}>
@@ -170,7 +152,7 @@ const RemoteTable = (props) => {
           <select
             value={pageSize}
             onChange={(e) => {
-              setPageSize(Number(e.target.value));
+              setControlledPageSize(Number(e.target.value));
             }}
           >
             {[10, 20, 30, 40, 50].map((pageSize) => (

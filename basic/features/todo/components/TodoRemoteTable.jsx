@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import RemoteTable from "../../remote-table/RemoteTable";
 
 const TodoRemoteTable = (props) => {
-  const debug = true;
   const {
-    columns,
     data,
     loading,
     controlledPageCount,
@@ -13,10 +11,35 @@ const TodoRemoteTable = (props) => {
     setPageIndex,
     setPageSize,
   } = props;
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Id",
+        accessor: "id",
+        sortable: true,
+      },
+      {
+        Header: "Title",
+        accessor: "title",
+        sortable: true,
+      },
+      {
+        Header: "User",
+        accessor: "userId",
+        sortable: true,
+      },
+      {
+        Header: "Completed",
+        accessor: (d) => (d.completed ? "true" : "false"),
+      },
+    ],
+    []
+  );
+
   return (
     <div className="border p-2">
       <div>TodoRemoteTable</div>
-      {debug && <pre>{JSON.stringify(props, null, 2)}</pre>}
       <div>
         <RemoteTable
           columns={columns}
