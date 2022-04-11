@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from 'react';
 
-const TodoSearchForm = () => {
+const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
+  const [id, setId] = useState('');
+
   return (
     <div className="border p-2">
-      <div>TodoSearchForm </div>
+      <input type={'text'} value={id} onChange={(e) => setId(e.target.value)} />
+      <button
+        onClick={(e) => {
+          const filters = [];
+          if (id) {
+            filters.push(`id:${id}`);
+          }
+          setSearchFilter(filters.join('|'));
+        }}
+      >
+        검색
+      </button>
     </div>
   );
 };
