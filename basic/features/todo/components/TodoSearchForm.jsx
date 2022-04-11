@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
   const [id, setId] = useState('');
+  const [completed, setCompleted] = useState('');
 
   return (
     <div className="border p-2 flex gap-5">
@@ -12,13 +13,21 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
         placeholder="User Id"
         className={'border-2 border-solid border-gray-300 text-l p-1'}
       />
+      <select value={completed} onChange={(e) => setCompleted(e.target.value)}>
+        <option value="">None</option>
+        <option value={true}>True</option>
+        <option value={false}>False</option>
+      </select>
       <button
         onClick={(e) => {
           const filters = [];
           if (id) {
             filters.push(`userId:${id}`);
           }
-          setSearchFilter(filters.join('|'));
+          if (completed !== '') {
+            filters.push(`completed:${completed}`);
+          }
+          setSearchFilter(filters.join(','));
         }}
       >
         검색
