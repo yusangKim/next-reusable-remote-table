@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
-import { useQuery } from "react-query";
-import { fetchTodoList } from "../api";
-import TodoRemoteTable from "./TodoRemoteTable";
-import TodoSearchForm from "./TodoSearchForm";
+import React, { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchTodoList } from '../api';
+import TodoRemoteTable from './TodoRemoteTable';
+import TodoSearchForm from './TodoSearchForm';
 
 const TodoListWithSearchForm = (props) => {
   const {
@@ -13,16 +13,17 @@ const TodoListWithSearchForm = (props) => {
   } = props;
 
   const [pageCount, setPageCount] = useState(0);
+  const [searchFilter, setSearchFilter] = useState('');
 
   const fetchData = useCallback(async ({ queryKey }) => {
-    const [_key, { pageIndex, pageSize }] = queryKey;
+    const [_key, { pageIndex, pageSize, searchFilter }] = queryKey;
     const page = pageIndex + 1;
-    const response = await fetchTodoList(page, pageSize);
+    const response = await fetchTodoList(page, pageSize, searchFilter);
     return response.data;
   }, []);
 
   const { isLoading, data } = useQuery(
-    ["todos", { pageIndex, pageSize }],
+    ['todos', { pageIndex, pageSize, searchFilter }],
     fetchData,
     {
       onSuccess: (data) => {
@@ -34,7 +35,10 @@ const TodoListWithSearchForm = (props) => {
   return (
     <div className="border p-2">
       <div>TodoListWithSearchForm</div>
-      <TodoSearchForm />
+      <TodoSearchForm
+        searchfilter={searchFilter}
+        setSearchFilter={setSearchFilter}
+      />
       <TodoRemoteTable
         loading={isLoading}
         data={data?.data ?? []}
