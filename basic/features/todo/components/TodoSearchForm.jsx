@@ -10,7 +10,7 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
         onClick={(e) => {
           const filters = [];
           if (id) {
-            filters.push(`id:${id}`);
+            filters.push(`userId:${id}`);
           }
           setSearchFilter(filters.join('|'));
         }}
