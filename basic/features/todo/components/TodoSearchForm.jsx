@@ -13,7 +13,11 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
         placeholder="User Id"
         className={'border-2 border-solid border-gray-300 text-l p-1'}
       />
-      <select value={completed} onChange={(e) => setCompleted(e.target.value)}>
+      <select
+        value={completed}
+        onChange={(e) => setCompleted(e.target.value)}
+        className={'border-2 border-solid border-gray-300'}
+      >
         <option value="">None</option>
         <option value={true}>True</option>
         <option value={false}>False</option>
@@ -29,6 +33,7 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
           }
           setSearchFilter(filters.join(','));
         }}
+        className={'border-2 border-solid border-blue-500 w-20 rounded'}
       >
         검색
       </button>
