@@ -143,7 +143,9 @@ const RemoteTable = (props) => {
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             {'<'}
           </button>{' '}
-          <button onClick={() => nextPage()}>{'>'}</button>{' '}
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            {'>'}
+          </button>{' '}
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
