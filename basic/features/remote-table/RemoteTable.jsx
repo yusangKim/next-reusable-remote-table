@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
-import React, { useCallback, useMemo } from "react";
-import { usePagination, useSortBy, useTable } from "react-table";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { usePagination, useSortBy, useTable } from 'react-table';
 
 const RemoteTable = (props) => {
   const {
@@ -12,6 +12,7 @@ const RemoteTable = (props) => {
     controlledPageSize,
     setControlledPage,
     setControlledPageSize,
+    setSort,
   } = props;
 
   const instance = useTable(
@@ -20,7 +21,7 @@ const RemoteTable = (props) => {
       data: data ?? [],
       initialState: { pageIndex: 0 },
       manualPagination: true,
-      manualSortBy: true,
+      manualSortBy: true, //이 옵션이 켜져있으면 자동으로 정렬하지 않음, 외부에서 정렬을 원하면(ex 서버)이 옵션을 true로 설정해야함
       pageCount: controlledPageCount,
       useControlledState: (state) => {
         return useMemo(
@@ -47,7 +48,7 @@ const RemoteTable = (props) => {
     canNextPage,
     pageOptions,
     pageCount,
-    state: { pageIndex, pageSize },
+    state: { pageIndex, pageSize, sortBy },
   } = instance;
 
   const gotoPage = useCallback(
@@ -63,6 +64,23 @@ const RemoteTable = (props) => {
     setControlledPage(pageIndex - 1);
   }, [pageIndex, setControlledPage]);
 
+  const [inputSort, setInputSort] = useState('');
+
+  const handleSort = (sortBy) => {
+    if (sortBy.length === 0) {
+      setSort('');
+    } else {
+      for (let i = 0; i < sortBy.length; i++) {
+        setInputSort(`${sortBy[i].id}:${sortBy[i].desc ? 'desc' : 'asc'}`);
+      }
+      setSort(inputSort);
+    }
+  };
+
+  useEffect(() => {
+    handleSort(sortBy);
+  }, [setSort, sortBy]);
+
   return (
     <div className="border p-2">
       <div>RemoteTable</div>
@@ -77,14 +95,15 @@ const RemoteTable = (props) => {
                     {...column.getHeaderProps(
                       column.sortable && column.getSortByToggleProps()
                     )}
+                    // onClick={() => handleSort(column)}
                   >
-                    {column.render("Header")}
+                    {column.render('Header')}
                     <span>
                       {column.isSorted
                         ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
+                          ? ' 🔽'
+                          : ' 🔼'
+                        : ''}
                     </span>
                   </th>
                 ))}
@@ -98,7 +117,7 @@ const RemoteTable = (props) => {
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     );
                   })}
                 </tr>
@@ -110,7 +129,7 @@ const RemoteTable = (props) => {
                 <td colSpan="10000">Loading...</td>
               ) : (
                 <td colSpan="10000">
-                  Showing {page.length} of ~{controlledPageCount * pageSize}{" "}
+                  Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
                   results
                 </td>
               )}
@@ -119,26 +138,26 @@ const RemoteTable = (props) => {
         </table>
         <div className="pagination">
           <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {"<<"}
-          </button>{" "}
+            {'<<'}
+          </button>{' '}
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {"<"}
-          </button>{" "}
-          <button onClick={() => nextPage()}>{">"}</button>{" "}
+            {'<'}
+          </button>{' '}
+          <button onClick={() => nextPage()}>{'>'}</button>{' '}
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
           >
-            {">>"}
-          </button>{" "}
+            {'>>'}
+          </button>{' '}
           <span>
-            Page{" "}
+            Page{' '}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
+            </strong>{' '}
           </span>
           <span>
-            | Go to page:{" "}
+            | Go to page:{' '}
             <input
               type="number"
               defaultValue={pageIndex + 1}
@@ -146,9 +165,9 @@ const RemoteTable = (props) => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0;
                 gotoPage(page);
               }}
-              style={{ width: "100px" }}
+              style={{ width: '100px' }}
             />
-          </span>{" "}
+          </span>{' '}
           <select
             value={pageSize}
             onChange={(e) => {

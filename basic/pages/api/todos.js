@@ -1,19 +1,19 @@
-import todos from "./todos.json";
+import todos from './todos.json';
 
 function paginate(array, pageSize, pageNumber) {
   return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
 const parseFilters = (filters) => {
-  if (!filters || typeof filters !== "string") {
+  if (!filters || typeof filters !== 'string') {
     return {};
   }
 
-  return filters.split(",").reduce((result, filter) => {
+  return filters.split(',').reduce((result, filter) => {
     try {
-      const [key, ...values] = filter.split(":");
+      const [key, ...values] = filter.split(':');
       if (key && values) {
-        result[key] = values.join(", ");
+        result[key] = values.join(', ');
       }
     } catch (err) {}
     return result;
@@ -21,22 +21,24 @@ const parseFilters = (filters) => {
 };
 
 const parseSort = (sort) => {
-  if (!sort || typeof sort !== "string") {
+  if (!sort || typeof sort !== 'string') {
     return {
-      key: "id",
-      ascending: "asc",
+      key: 'id',
+      ascending: 'asc',
     };
   }
 
   const result = {};
   try {
-    const [key, ...values] = sort.split(":");
+    const [key, ...values] = sort.split(':');
+
     if (key && values) {
       result.key = key;
-      result.ascending = values.join("").toLowerCase() === "asc";
+      result.ascending = values.join('').toLowerCase() === 'asc';
     }
+    console.log('values:', values);
   } catch (err) {}
-
+  console.log(result);
   return result;
 };
 
@@ -66,19 +68,19 @@ const getSortedTodos = (todos, sort) => {
 
   return todos.sort((a, b) => {
     const direction = sort.ascending ? 1 : -1;
-    if (sort.key === "id") {
+    if (sort.key === 'id') {
       if (a.id === b.id) {
         return 0;
       }
 
       return direction * (a.id > b.id ? 1 : -1);
-    } else if (sort.key === "userId") {
+    } else if (sort.key === 'userId') {
       if (a.userId === b.userId) {
         return 0;
       }
 
       return direction * (a.userId > b.userId ? 1 : -1);
-    } else if (sort.key === "title") {
+    } else if (sort.key === 'title') {
       if (a.title === b.title) {
         return 0;
       }
