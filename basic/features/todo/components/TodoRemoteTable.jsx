@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import RemoteTable from "../../remote-table/RemoteTable";
+import React, { useMemo } from 'react';
+import RemoteTable from '../../remote-table/RemoteTable';
 
 const TodoRemoteTable = (props) => {
   const {
@@ -10,28 +10,29 @@ const TodoRemoteTable = (props) => {
     controlledPageSize,
     setPageIndex,
     setPageSize,
+    setSort,
   } = props;
 
   const columns = useMemo(
     () => [
       {
-        Header: "Id",
-        accessor: "id",
+        Header: 'Id',
+        accessor: 'id',
         sortable: true,
       },
       {
-        Header: "Title",
-        accessor: "title",
+        Header: 'Title',
+        accessor: 'title',
         sortable: true,
       },
       {
-        Header: "User",
-        accessor: "userId",
+        Header: 'User',
+        accessor: 'userId',
         sortable: true,
       },
       {
-        Header: "Completed",
-        accessor: (d) => (d.completed ? "true" : "false"),
+        Header: 'Completed',
+        accessor: (d) => (d.completed ? 'true' : 'false'),
       },
     ],
     []
@@ -50,6 +51,7 @@ const TodoRemoteTable = (props) => {
           controlledPageSize={controlledPageSize}
           setControlledPage={setPageIndex}
           setControlledPageSize={setPageSize}
+          setSort={setSort}
         />
       </div>
     </div>

@@ -14,16 +14,17 @@ const TodoListWithSearchForm = (props) => {
 
   const [pageCount, setPageCount] = useState(0);
   const [searchFilter, setSearchFilter] = useState('');
+  const [sort, setSort] = useState('');
 
   const fetchData = useCallback(async ({ queryKey }) => {
-    const [_key, { pageIndex, pageSize, searchFilter }] = queryKey;
+    const [_key, { pageIndex, pageSize, searchFilter, sort }] = queryKey;
     const page = pageIndex + 1;
-    const response = await fetchTodoList(page, pageSize, searchFilter);
+    const response = await fetchTodoList(page, pageSize, searchFilter, sort);
     return response.data;
   }, []);
 
   const { isLoading, data } = useQuery(
-    ['todos', { pageIndex, pageSize, searchFilter }],
+    ['todos', { pageIndex, pageSize, searchFilter, sort }],
     fetchData,
     {
       onSuccess: (data) => {
@@ -47,6 +48,7 @@ const TodoListWithSearchForm = (props) => {
         controlledPageSize={pageSize}
         setPageIndex={setPageIndex}
         setPageSize={setPageSize}
+        setSort={setSort}
       />
     </div>
   );
