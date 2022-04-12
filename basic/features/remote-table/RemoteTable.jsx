@@ -79,7 +79,6 @@ const RemoteTable = (props) => {
 
   useEffect(() => {
     handleSort(sortBy);
-    console.log(inputSort);
   }, [setSort, sortBy]);
 
   return (
