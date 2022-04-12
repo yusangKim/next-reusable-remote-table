@@ -71,7 +71,7 @@ const RemoteTable = (props) => {
       setSort('');
     } else {
       for (let i = 0; i < sortBy.length; i++) {
-        setInputSort(`${sortBy[i].id}:${sortBy[i].desc ? 'desc' : 'asc'}`);
+        setInputSort(`${sortBy[i].id}:${sortBy[i].desc ? 'asc' : 'desc'}`);
       }
       setSort(inputSort);
     }
@@ -79,6 +79,7 @@ const RemoteTable = (props) => {
 
   useEffect(() => {
     handleSort(sortBy);
+    console.log(inputSort);
   }, [setSort, sortBy]);
 
   return (
