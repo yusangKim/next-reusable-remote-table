@@ -36,9 +36,7 @@ const parseSort = (sort) => {
       result.key = key;
       result.ascending = values.join('').toLowerCase() === 'asc';
     }
-    console.log('values:', values);
   } catch (err) {}
-  console.log(result);
   return result;
 };
 
