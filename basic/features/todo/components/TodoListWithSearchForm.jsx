@@ -15,6 +15,7 @@ const TodoListWithSearchForm = (props) => {
   const [pageCount, setPageCount] = useState(0);
   const [searchFilter, setSearchFilter] = useState('');
   const [sort, setSort] = useState('');
+  console.log(searchFilter);
 
   const fetchData = useCallback(async ({ queryKey }) => {
     const [_key, { pageIndex, pageSize, searchFilter, sort }] = queryKey;

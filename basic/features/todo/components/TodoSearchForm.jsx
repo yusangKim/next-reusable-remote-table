@@ -31,7 +31,7 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
           if (completed !== '') {
             filters.push(`completed:${completed}`);
           }
-          setSearchFilter(filters.join(', '));
+          setSearchFilter(filters.join(','));
         }}
         className={'border-2 border-solid border-blue-500 w-20 rounded'}
       >
