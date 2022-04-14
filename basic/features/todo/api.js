@@ -7,10 +7,17 @@ import axios from 'axios';
 //   return await axios.get(`/api/todos?${queryString}`);
 // }
 
-export async function fetchTodoList(page, per_page = 10, filters, sort) {
+export async function fetchTodoList(page, per_page = 10, filters = {}, sort) {
   let params = { page, per_page };
-  if (filters !== '') {
-    params = { ...params, filters };
+
+  let filterResult = '';
+  if (filters.userId) {
+    filterResult += `userId:${filters.userId}`;
+    params.filters = filterResult;
+  }
+  if (filters.completed) {
+    filterResult += `,completed:${filters.completed}`;
+    params.filters = filterResult;
   }
   if (sort.length !== '') {
     params = { ...params, sort };

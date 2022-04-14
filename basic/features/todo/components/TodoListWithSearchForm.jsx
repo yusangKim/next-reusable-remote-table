@@ -10,21 +10,24 @@ const TodoListWithSearchForm = (props) => {
     controlledPageSize: pageSize,
     setPageIndex,
     setPageSize,
+    setFilters,
+    filters,
   } = props;
 
   const [pageCount, setPageCount] = useState(0);
-  const [searchFilter, setSearchFilter] = useState('');
   const [sort, setSort] = useState('');
 
   const fetchData = useCallback(async ({ queryKey }) => {
-    const [_key, { pageIndex, pageSize, searchFilter, sort }] = queryKey;
+    console.log(filters);
+    const [_key, { pageIndex, pageSize, filters, sort }] = queryKey;
     const page = pageIndex + 1;
-    const response = await fetchTodoList(page, pageSize, searchFilter, sort);
+    const response = await fetchTodoList(page, pageSize, filters, sort);
+    // console.log(response.data);
     return response.data;
   }, []);
 
   const { isLoading, data } = useQuery(
-    ['todos', { pageIndex, pageSize, searchFilter, sort }],
+    ['todos', { pageIndex, pageSize, filters, sort }],
     fetchData,
     {
       onSuccess: (data) => {
@@ -36,10 +39,7 @@ const TodoListWithSearchForm = (props) => {
   return (
     <div className="border p-2">
       <div>TodoListWithSearchForm</div>
-      <TodoSearchForm
-        searchfilter={searchFilter}
-        setSearchFilter={setSearchFilter}
-      />
+      <TodoSearchForm filters={filters} setFilters={setFilters} />
       <TodoRemoteTable
         loading={isLoading}
         data={data?.data ?? []}

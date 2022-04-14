@@ -1,15 +1,19 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { useRoutePagination } from "../features/remote-table/hooks/use-route-pagination";
-import TodoListWithSearchForm from "../features/todo/components/TodoListWithSearchForm";
-import Layout from "../layouts";
-
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useRoutePagination } from '../features/remote-table/hooks/use-route-pagination';
+import TodoListWithSearchForm from '../features/todo/components/TodoListWithSearchForm';
+import Layout from '../layouts';
 
 const TodoListPage = () => {
   const router = useRouter();
-  const { pageIndex, setPageIndex, pageSize, setPageSize } = useRoutePagination(
-    router.pathname
-  );
+  const {
+    pageIndex,
+    setPageIndex,
+    pageSize,
+    setPageSize,
+    setFilters,
+    filters,
+  } = useRoutePagination(router.pathname);
 
   return (
     <Layout>
@@ -22,6 +26,8 @@ const TodoListPage = () => {
           controlledPageSize={pageSize}
           setPageIndex={setPageIndex}
           setPageSize={setPageSize}
+          setFilters={setFilters}
+          filters={filters}
         />
       </div>
     </Layout>

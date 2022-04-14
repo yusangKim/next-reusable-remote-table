@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
+const TodoSearchForm = ({ filters, setFilters }) => {
   const [id, setId] = useState('');
   const [completed, setCompleted] = useState('');
 
@@ -24,14 +24,14 @@ const TodoSearchForm = ({ searchFilter, setSearchFilter }) => {
       </select>
       <button
         onClick={(e) => {
-          const filters = [];
-          if (id) {
-            filters.push(`userId:${id}`);
+          const filters = {};
+          if (id !== '') {
+            filters.userId = id;
           }
           if (completed !== '') {
-            filters.push(`completed:${completed}`);
+            filters.completed = completed;
           }
-          setSearchFilter(filters.join(', '));
+          setFilters(filters);
         }}
         className={'border-2 border-solid border-blue-500 w-20 rounded'}
       >
