@@ -8,10 +8,10 @@ const TodoListWidgetPage = () => {
       <div>
         <h1 className="text-2xl pb-2 border-b">TodoList Widgets</h1>
         <div>
-          <TodoListWidget defaultFilters={{}} />
+          <TodoListWidget defaultFilters={{}} defaultSortBy={[]} />
         </div>
         <div>
-          <TodoListWidget defaultFilters={{ userId: 10, completed: false }} />
+          <TodoListWidget defaultFilters={{}} defaultSortBy={[]} />
         </div>
       </div>
     </Layout>

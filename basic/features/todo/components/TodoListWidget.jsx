@@ -8,6 +8,7 @@ const TodoListWidget = ({ defaultFilters, completed }) => {
     userId: defaultFilters?.userId,
     completed: completed?.completed,
   });
+  const [sortBy, setSortBy] = useState([]);
 
   return (
     <div className="border p-2">
@@ -20,6 +21,8 @@ const TodoListWidget = ({ defaultFilters, completed }) => {
           setPageSize={setPageSize}
           setFilters={setFilters}
           filters={filters}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
       </div>
     </div>
