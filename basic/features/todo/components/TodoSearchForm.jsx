@@ -4,6 +4,10 @@ const TodoSearchForm = ({ filters, setFilters }) => {
   const [id, setId] = useState('');
   const [completed, setCompleted] = useState('');
 
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
+
   return (
     <div className="border p-2 flex gap-5">
       <input

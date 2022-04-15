@@ -47,6 +47,7 @@ export const useRoutePagination = (
 
   const setFilters = useCallback(
     (filters) => {
+      console.log(filters);
       const userId = filters?.userId;
       const completed = filters?.completed;
       console.log('실행', filters);

@@ -1,6 +1,6 @@
-import React from "react";
-import Layout from "../layouts";
-import TodoListWidget from "../features/todo/components/TodoListWidget";
+import React from 'react';
+import Layout from '../layouts';
+import TodoListWidget from '../features/todo/components/TodoListWidget';
 
 const TodoListWidgetPage = () => {
   return (
@@ -8,10 +8,10 @@ const TodoListWidgetPage = () => {
       <div>
         <h1 className="text-2xl pb-2 border-b">TodoList Widgets</h1>
         <div>
-          <TodoListWidget />
+          <TodoListWidget defaultFilters={{}} />
         </div>
         <div>
-          <TodoListWidget />
+          <TodoListWidget defaultFilters={{ userId: 10, completed: false }} />
         </div>
       </div>
     </Layout>
