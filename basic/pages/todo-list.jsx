@@ -13,6 +13,8 @@ const TodoListPage = () => {
     setPageSize,
     setFilters,
     filters,
+    sortBy,
+    setSortBy,
   } = useRoutePagination(router.pathname);
 
   return (
@@ -28,6 +30,8 @@ const TodoListPage = () => {
           setPageSize={setPageSize}
           setFilters={setFilters}
           filters={filters}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
       </div>
     </Layout>

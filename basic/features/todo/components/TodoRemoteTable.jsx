@@ -10,7 +10,8 @@ const TodoRemoteTable = (props) => {
     controlledPageSize,
     setPageIndex,
     setPageSize,
-    setSort,
+    sortBy,
+    setSortBy,
   } = props;
 
   const columns = useMemo(
@@ -51,7 +52,8 @@ const TodoRemoteTable = (props) => {
           controlledPageSize={controlledPageSize}
           setControlledPage={setPageIndex}
           setControlledPageSize={setPageSize}
-          setSort={setSort}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
       </div>
     </div>

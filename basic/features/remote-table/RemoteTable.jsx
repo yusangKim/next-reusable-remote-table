@@ -12,7 +12,8 @@ const RemoteTable = (props) => {
     controlledPageSize,
     setControlledPage,
     setControlledPageSize,
-    setSort,
+    sortBy,
+    setSortBy,
   } = props;
 
   const instance = useTable(
@@ -21,7 +22,7 @@ const RemoteTable = (props) => {
       data: data ?? [],
       initialState: { pageIndex: 0 },
       manualPagination: true,
-      manualSortBy: true, //이 옵션이 켜져있으면 자동으로 정렬하지 않음, 외부에서 정렬을 원하면(ex 서버)이 옵션을 true로 설정해야함
+      // manualSortBy: true, //이 옵션이 켜져있으면 자동으로 정렬하지 않음, 외부에서 정렬을 원하면(ex 서버)이 옵션을 true로 설정해야함
       pageCount: controlledPageCount,
       useControlledState: (state) => {
         return useMemo(
@@ -48,7 +49,7 @@ const RemoteTable = (props) => {
     canNextPage,
     pageOptions,
     pageCount,
-    state: { pageIndex, pageSize, sortBy },
+    state: { pageIndex, pageSize },
   } = instance;
 
   const gotoPage = useCallback(
@@ -64,23 +65,6 @@ const RemoteTable = (props) => {
     setControlledPage(pageIndex - 1);
   }, [pageIndex, setControlledPage]);
 
-  const [inputSort, setInputSort] = useState('');
-
-  const handleSort = (sortBy) => {
-    if (sortBy.length === 0) {
-      setSort('');
-    } else {
-      for (let i = 0; i < sortBy.length; i++) {
-        setInputSort(`${sortBy[i].id}:${sortBy[i].desc ? 'asc' : 'desc'}`);
-      }
-      setSort(inputSort);
-    }
-  };
-
-  useEffect(() => {
-    handleSort(sortBy);
-  }, [setSort, sortBy]);
-
   return (
     <div className="border p-2">
       <div>RemoteTable</div>
@@ -91,20 +75,33 @@ const RemoteTable = (props) => {
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps(
-                      column.sortable && column.getSortByToggleProps()
-                    )}
-                    // onClick={() => handleSort(column)}
-                  >
+                  <th {...column.getHeaderProps()}>
                     {column.render('Header')}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
-                    </span>
+                    {column.sortable && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            setSortBy([{ id: column.id, desc: false }]);
+                          }}
+                        >
+                          A
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            setSortBy([{ id: column.id, desc: true }]);
+                          }}
+                        >
+                          D
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            setSortBy([]);
+                          }}
+                        >
+                          X
+                        </button>
+                      </>
+                    )}
                   </th>
                 ))}
               </tr>
